@@ -1,30 +1,33 @@
 const express = require('express');
 const router = express.Router();
-
-const pool = require('../database');
-const passport = require('../lib/passport');
+const passport = require('passport');
+const { isLoggedIn } = require('../lib/auth');
 
 router.get('/signup', (req, res)=>{
     res.render('../views/auth/signup.hbs');
 });
 
-router.post('/signup', (req, res)=>{
+router.post('/signup', passport.authenticate('local.signup', {
+    successRedirect: '/content',
+    failureRedirect: '/signup',
+    failureFlash: true
+})); 
 
-    passport.authenticate('local.signup', {
-        successRedirect: '/content',
-        failureRedirect: '/signup',
-        failureFlash: true
-    });
-
-    const {nombre, apellido, password} = req.body;
-    const newUser = {
-        nombre,
-        apellido,
-        password
-    };
-    console.log(`n: ${nombre} / a: ${apellido} / p: ${password}`);
-    res.send('recivido!');
+router.get('/signin', (req, res)=>{
+    res.render('../views/auth/signin.hbs');
 });
 
+router.post('/signin', (req, res, next)=>{
+    passport.authenticate('local.signin', {
+        successRedirect: '/content',
+        failureRedirect: '/signin',
+        failureFlash: true
+    })(req, res, next);
+});
+
+router.get('/logout', (req, res)=>{
+    req.logOut();
+    res.redirect('/signin');
+});
 
 module.exports = router;

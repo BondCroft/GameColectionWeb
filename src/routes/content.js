@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-
+const { isLoggedIn } = require('../lib/auth');
 const pool = require('../database.js');
 
-router.get('/inicio', (req, res)=>{
+router.get('/inicio', isLoggedIn, (req, res)=>{
     res.render('../views/content/inicio.hbs');
 });
 router.post('/inicio', async (req, res)=>{
