@@ -1,10 +1,11 @@
 <div class="container p-4">
     <div class="row">
-        {{#each consolas}}
+        {{#each juegos}}
             <div class="card border-primary mb-3 m-3" style="max-width: 18rem;">
-                <div class="card-header">consolas</div>
+                <div class="card-header">Juegos</div>
                 <div class="card-body text-primary">
                     <h5 class="card-title">{{nombre}}</h5>
+                    <p class="card-text">{{formato}}</p>
                     <p class="card-text">{{descripcion}}</p>
                 </div>
                 <div class="btn-group">
@@ -12,13 +13,13 @@
                         Configurar
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/content/delete/{{consola_id}}">Borrar</a></li>
-                        <li><a class="dropdown-item" href="/content/edit/{{consola_id}}">Modificar</a></li>
+                        <li><a class="dropdown-item" href="/content/deleteJ/{{juego_id}}">Borrar</a></li>
+                        <li><a class="dropdown-item" href="/content/editJ/{{juego_id}}">Modificar</a></li>
                     </ul>
                 </div>
             </div>
         {{else}}
-            <div class="alert alert-primary" role="alert">No hay consolas <a href="/content/add" class="alert-link">Crear una!</a>. Si lo deseas.
+            <div class="alert alert-primary" role="alert">No hay Juegos! <a href="/content/addjuego" class="alert-link"> Guarde uno!</a>. Si lo deseas.
             </div>
         {{/each}}
     </div>

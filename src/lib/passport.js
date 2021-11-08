@@ -38,8 +38,8 @@ passport.use('local.signup', new localStrategy({
     //encrypto la contraseña.
     newUser.password = await help.encryptPass(password);
     const resultado = await pool.query('INSERT INTO users SET ?', [newUser]);
-    newUser.id = resultado.insertId;
-    return done(null, newUser);
+    newUser.user_id = resultado.insertId;
+    return done(null, newUser, req.flash('success', `Logeado con exito! Welcome ${newUser.username} ${newUser.fullname}!`));
 }));
 
 passport.serializeUser((user, done)=>{

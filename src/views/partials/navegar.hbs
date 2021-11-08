@@ -1,15 +1,13 @@
 <ul class="nav nav-tabs">
-
   {{#if user}}
-
   <li class="nav-item">
     <a href="" class="nav-link active" aria-current="page" href="/content">Contenido</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="#">Consolas</a>
+    <a class="nav-link" href="/content">Consolas</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="#">Juegos</a>
+    <a class="nav-link" href="/content/juegos">Juegos</a>
   </li>
   <li class="nav-item">
     <a class="nav-link" href="#">Accesorios</a>
@@ -17,15 +15,20 @@
   <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Agregar</a>
     <ul class="dropdown-menu">
-      <li><a class="dropdown-item" href="/content/inicio">Consola</a></li>
-      <li><a class="dropdown-item" href="#">Juego</a></li>
+      <li><a class="dropdown-item" href="/content/add">Consola</a></li>
+      <li><a class="dropdown-item" href="/content/addjuego">Juego</a></li>
       <li><a class="dropdown-item" href="#">Accesorio</a></li>
     </ul>
   </li>
   <li class="nav-item">
-    <a href="/logout" class="nav-link">LogOut</a>
+    <a class="nav-link" href="/logout">LogOut</a>
   </li>
-
+  {{else}}
+    <li class="nav-item">
+      <a class="nav-link" href="/signin">Signin</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/signup">SignUp</a>
+    </li>
   {{/if}}
-
 </ul>

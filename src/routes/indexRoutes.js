@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
+const { isNotLogged } = require('../lib/auth.js');
 
-router.get('/', (req, res)=>{
-    res.send('Aca muestro opciones!');
+router.get('/profile', (req, res)=>{
+    res.render('../views/layouts/profile.hbs');
 });
 
 module.exports = router;

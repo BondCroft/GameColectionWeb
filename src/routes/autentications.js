@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
-const { isLoggedIn } = require('../lib/auth');
+const { isLoggedIn, isNotLogged } = require('../lib/auth.js');
 
-router.get('/signup', (req, res)=>{
+router.get('/signup', isNotLogged, (req, res)=>{
     res.render('../views/auth/signup.hbs');
 });
 
@@ -13,7 +13,7 @@ router.post('/signup', passport.authenticate('local.signup', {
     failureFlash: true
 })); 
 
-router.get('/signin', (req, res)=>{
+router.get('/signin', isNotLogged, (req, res)=>{
     res.render('../views/auth/signin.hbs');
 });
 
@@ -25,9 +25,9 @@ router.post('/signin', (req, res, next)=>{
     })(req, res, next);
 });
 
-router.get('/logout', (req, res)=>{
+router.get('/logout', isLoggedIn, (req, res)=>{
     req.logOut();
-    res.redirect('/signin');
+    res.redirect('/profile');
 });
 
 module.exports = router;
