@@ -9,8 +9,10 @@ CREATE TABLE users(
 
 CREATE TABLE consolas(
     consola_id INT(12) PRIMARY KEY AUTO_INCREMENT,
+    user_id INT(12) NOT NULL, 
     nombre VARCHAR(50) NOT NULL,
-    descripcion VARCHAR(250) NOT NULL
+    descripcion VARCHAR(250) NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users (user_id)
 );
 
 CREATE TABLE accesorios(

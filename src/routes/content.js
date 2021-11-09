@@ -10,6 +10,7 @@ router.get('/add', isLoggedIn, (req, res)=>{
 router.post('/add', async (req, res)=>{
     const { nombre, descripcion } = req.body;
     const new_consola = {
+        user_id: req.user.user_id,
         nombre,
         descripcion
     };
@@ -21,7 +22,7 @@ router.post('/add', async (req, res)=>{
 
 router.get('/', isLoggedIn, async (req, res)=>{
 
-    const consolas = await pool.query('SELECT * FROM consolas');
+    const consolas = await pool.query('SELECT * FROM consolas WHERE user_id = ?', [req.user.user_id]);
     res.render('../views/content/consolas.hbs', {consolas});
 });
 
@@ -71,7 +72,7 @@ router.post('/addjuego', async (req, res)=>{
 
 router.get('/juegos', isLoggedIn, async (req, res)=>{
 
-    const juegos = await pool.query('SELECT * FROM juegos');
+    const juegos = await pool.query('SELECT * FROM juegos WHERE user_id = ?', [req.user.user_id]);
     res.render('../views/content/juegos.hbs', {juegos});
 });
 
@@ -99,6 +100,56 @@ router.post('/editJ/:id', async (req, res)=>{
     await pool.query('UPDATE juegos set ? WHERE juego_id = ?', [new_juego, id]);
     req.flash('success', 'Juego editado con exito!');
     res.redirect('/content/juegos');
+});
+
+//accesorio
+
+router.get('/addAcc', isLoggedIn, (req, res)=>{
+    res.render('../views/content/addAcc.hbs');
+});
+router.post('/addAcc', async (req, res)=>{
+    const { nombre, descripcion } = req.body;
+    const new_accesorio = {
+        user_id: req.user.user_id,
+        nombre,
+        descripcion
+    };
+    await pool.query('INSERT INTO accesorios set ?', [new_accesorio]);
+    req.flash('success', 'Accesorio guardado correctamnente! ');
+    res.redirect('/content/accesorios');
+
+});
+
+router.get('/accesorios', isLoggedIn, async (req, res)=>{
+
+    const accesorio = await pool.query('SELECT * FROM accesorios WHERE user_id = ?', [req.user.user_id]);
+    res.render('../views/content/accesorios.hbs', {accesorio});
+});
+
+router.get('/deleteAcc/:id', isLoggedIn, async (req, res)=>{
+    const { id } = req.params;
+    await pool.query('DELETE FROM accesorios WHERE acceso_id = ?', [id]);
+    req.flash('success', 'Accesorio borrado de la coleccion! ');
+    res.redirect('/content/accesorios');
+});
+
+router.get('/editAcc/:id', isLoggedIn, async (req, res)=>{
+    const { id } = req.params;
+    const accesorio = await pool.query('SELECT * FROM accesorios WHERE acceso_id = ?', [id]);
+    console.log(accesorio[0]);
+    res.render('../views/content/editAcc.hbs', {accesorio: accesorio[0]});
+});
+
+router.post('/editAcc/:id', async (req, res)=>{
+    const { id } = req.params;
+    const { nombre, descripcion } = req.body;
+    const new_accesorio = {
+        nombre,
+        descripcion
+    };
+    await pool.query('UPDATE accesorios set ? WHERE acceso_id = ?', [new_accesorio, id]);
+    req.flash('success', 'Accesorio editado con exito! ');
+    res.redirect('/content/accesorios');
 });
 
 module.exports = router;
